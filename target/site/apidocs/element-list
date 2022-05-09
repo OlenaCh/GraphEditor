@@ -1,0 +1,6 @@
+module:cz.cuni.mff.java.project.grapheditor
+cz.cuni.mff.java.project.grapheditor
+cz.cuni.mff.java.project.grapheditor.algorithms
+cz.cuni.mff.java.project.grapheditor.editor
+cz.cuni.mff.java.project.grapheditor.graphs
+cz.cuni.mff.java.project.grapheditor.listeners

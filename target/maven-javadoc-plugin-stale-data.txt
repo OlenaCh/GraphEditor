@@ -1,0 +1,74 @@
+@options
+@argfile
+--class-path
+'/home/olena/.m2/repository/org/openjfx/javafx-base/11.0.1/javafx-base-11.0.1.jar:/home/olena/.m2/repository/org/openjfx/javafx-controls/11.0.1/javafx-controls-11.0.1.jar:/home/olena/.m2/repository/org/openjfx/javafx-fxml/11.0.1/javafx-fxml-11.0.1.jar:/home/olena/.m2/repository/org/openjfx/javafx-graphics/11.0.1/javafx-graphics-11.0.1.jar'
+--module-path
+'/home/olena/.m2/repository/org/openjfx/javafx-fxml/11.0.1/javafx-fxml-11.0.1-linux.jar:/home/olena/.m2/repository/org/openjfx/javafx-base/11.0.1/javafx-base-11.0.1-linux.jar:/home/olena/Desktop/Study materials/Java/GraphEditor/target/classes:/home/olena/.m2/repository/org/openjfx/javafx-graphics/11.0.1/javafx-graphics-11.0.1-linux.jar:/home/olena/.m2/repository/org/openjfx/javafx-controls/11.0.1/javafx-controls-11.0.1-linux.jar'
+--patch-module
+cz.cuni.mff.java.project.grapheditor='/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java'
+-encoding
+'UTF-8'
+-protected
+-source
+'11'
+--module-source-path
+'/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/src'
+-author
+-bottom
+'Copyright &#169; 2022. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'project.graph-editor 1.0-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/en/java/javase/11/docs/api' '/home/olena/Desktop/Study materials/Java/GraphEditor/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'project.graph-editor 1.0-SNAPSHOT API'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/algorithms/BFS.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/algorithms/Path.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/algorithms/Node.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/algorithms/DFS.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/algorithms/AbstractAlgorithm.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/graphs/Graph.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/graphs/AbstractGraph.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/editor/Editor.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/editor/PointD.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/AlgorithmHandler.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/RunButtonHandler.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/MouseClickHandler.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/MouseDragHandler.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/OpenFileHandler.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/NewGraphHandler.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/SaveFileHandler.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/KeyBoardPressHandler.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/StopAlgorithmHandler.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/KeyBoardReleaseHandler.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/Main.java'
+'/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/module-info.java'
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/index-all.html = 1652098041970
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/help-doc.html = 1652098041986
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/module-search-index.zip = 1652098041970
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/deprecated-list.html = 1652098041982
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/package-search-index.js = 1652098041970
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/constant-values.html = 1652098041858
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/allclasses.html = 1652098041982
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/type-search-index.js = 1652098041970
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/member-search-index.js = 1652098041970
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/stylesheet.css = 1652098041986
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/package-search-index.zip = 1652098041970
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/allclasses-index.html = 1652098041974
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/allpackages-index.html = 1652098041978
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/script.js = 1652098041986
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/element-list = 1652098041822
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/type-search-index.zip = 1652098041970
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/module-search-index.js = 1652098041966
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/index.html = 1652098041982
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/member-search-index.zip = 1652098041970
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/overview-tree.html = 1652098041938
+/home/olena/Desktop/Study materials/Java/GraphEditor/target/site/apidocs/search.js = 1652098041990
