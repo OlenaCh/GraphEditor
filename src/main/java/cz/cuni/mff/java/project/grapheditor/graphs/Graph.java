@@ -1,54 +1,153 @@
 package cz.cuni.mff.java.project.grapheditor.graphs;
 
+import cz.cuni.mff.java.project.grapheditor.editor.PointD;
+
 import java.io.*;
 import java.util.*;
+
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.Namespace;
+
+import org.jdom2.filter.ElementFilter;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 /**
  * Implements a graph with IO interface.
  */
 public class Graph extends AbstractGraph implements GraphIOInterface {
     /**
-     * <p>Reads a graph from a .txt file</p>
+     * <p>Keeps the information about the positions of vertices.</p>
+     * <p> Is updated in two cases: when graph data is read from file and
+     * when graph data is stored to file.</p>
+     * <p>Consequently, cannot be used to track the dynamic changes in the
+     * positions of vertices.</p>
+     */
+    private Map<Integer, PointD> position;
+
+    /**
+     * <p>A class constructor</p>
+     */
+    public Graph() {
+        this.position = new HashMap<>();
+    }
+
+    /**
+     * <p>Reads a graph from a .xml file</p>
      * @param filename the name of file to read a graph from
      */
     @Override
     public void fromFile(String filename) {
-        try (
-            BufferedReader br =
-                new BufferedReader(new FileReader(new File(filename)))
-        ) {
+        try {
+            SAXBuilder sb = new SAXBuilder();
+            Document document = sb.build(filename);
+            Element root = document.getRootElement();
 
-            List<String> data = new ArrayList<String>();
-            String line;
-
-            while((line = br.readLine()) != null)
-                data.add(line);
-
-            if (!data.isEmpty())
-                build(data);
+            buildGraph(root.getChild("vertices", root.getNamespace()));
         }
-        catch (IOException e) {
+        catch (IOException | JDOMException e) {
             System.out.println("The file could not be read: " + e.getMessage());
         }
     }
 
     /**
-     * <p>Writes a graph to a .txt file</p>
+     * <p>Builds a graph from the xml data.</p>
+     * <p>Required xml tree format is displayed below.</p>
+     * <p>graph</p>
+     * <p>..vertices</p>
+     * <p>....vertex</p>
+     * <p>......id</p>
+     * <p>......position</p>
+     * <p>........x</p>
+     * <p>........y</p>
+     * <p>......neighbors</p>
+     * <p>........neighbor</p>
+     * @param vertices the parent node that contains all graph vertices
+     */
+    private void buildGraph(Element vertices)
+        throws IOException, JDOMException {
+
+        if (vertices == null)
+            return;
+
+        for (Element vertex : vertices.getChildren()) {
+            Integer id = null;
+            Double x = null;
+            Double y = null;
+            List<Integer> edges = new ArrayList<Integer>();
+
+            for (Element detail : vertex.getChildren()) {
+                if ((detail.getName()).equals("id")) {
+                    id = Integer.parseInt(detail.getText());
+
+                    continue;
+                }
+
+                if ((detail.getName()).equals("position")) {
+                    for (Element coordinate : detail.getChildren()) {
+                        if ((coordinate.getName()).equals("x"))
+                            x = Double.parseDouble(coordinate.getText());
+
+                        if ((coordinate.getName()).equals("y"))
+                            y = Double.parseDouble(coordinate.getText());
+                    }
+
+                    continue;
+                }
+
+                if ((detail.getName()).equals("neighbors")) {
+                    for (Element neighbor : detail.getChildren())
+                        edges.add(Integer.parseInt(neighbor.getText()));
+                }
+            }
+
+            if (id != null && x != null && y != null) {
+                this.vertex.put(id, edges);
+                this.position.put(id, new PointD(x, y));
+            }
+            else {
+                this.position.clear();
+
+                throw new IOException();
+            }
+        }
+    }
+
+    /**
+     * <p>Gets the positions of vertices</p>
+     * @return positions of vertices
+     */
+    public Map<Integer, PointD> getVerticesPositions() {
+        Map<Integer, PointD> copy = new HashMap<>();
+
+        for (Map.Entry<Integer, PointD> entry : this.position.entrySet()) {
+            PointD tmp = entry.getValue();
+
+            copy.put(entry.getKey(), new PointD(tmp.getX(), tmp.getY()));
+        }
+
+        return copy;
+    }
+
+    /**
+     * <p>Writes a graph to a .xml file</p>
      * @param filename the name of file to store a graph in
      */
     @Override
     public void toFile(String filename) {
-        try {
-            File file = new File(filename);
-            file.createNewFile();
+        try(FileWriter fileWriter = new FileWriter(filename)) {
+            Document document = new Document();
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
-            List<String> data = store();
+            document.setRootElement(new Element("graph"));
+            document.getRootElement().addContent(store());
 
-            for (String record : data)
-                writer.write(record + "\n");
+            XMLOutputter xmlOutputter = new XMLOutputter();
 
-            writer.close();
+            xmlOutputter.setFormat(Format.getPrettyFormat());
+            xmlOutputter.output(document, fileWriter);
         }
         catch (IOException e) {
             System.out.println(
@@ -58,60 +157,61 @@ public class Graph extends AbstractGraph implements GraphIOInterface {
     }
 
     /**
-     * <p>Builds a graph from the lines of file.
-     * Supports the following format:</p>
-     * <p>1 5</p>
-     * <p>2 5</p>
-     * <p>3 5</p>
-     * <p>4</p>
-     * <p>5 1 2 3</p>
-     * <p>where the first number on each line is vertex id and the rest -
-     * ids of adjacent vertices</p>
-     * @param data the lines that were read from file
+     * <p>Builds the xml data to store in file.</p>
+     * <p>Required xml tree format is displayed below.</p>
+     * <p>graph</p>
+     * <p>..vertices</p>
+     * <p>....vertex</p>
+     * <p>......id</p>
+     * <p>......position</p>
+     * <p>........x</p>
+     * <p>........y</p>
+     * <p>......neighbors</p>
+     * <p>........neighbor</p>
+     * @return the parent node that contains all graph vertices
      */
-    private void build(List<String> data) {
-        if (data.isEmpty())
-            return;
+    private Element store() {
+        Element vertices = new Element("vertices");
 
-        for (String str : data) {
-            String[] verticesData = str.trim().split(" ");
+        for (Map.Entry<Integer, List<Integer>> entry : this.vertex.entrySet()) {
+            PointD p = this.position.get(entry.getKey());
 
-            if (verticesData.length > 0) {
-                Integer id = Integer.parseInt(verticesData[0]);
-                List<Integer> edges = new ArrayList<Integer>();
+            Element vertex = new Element("vertex");
+            vertex.addContent(
+                new Element("id").setText(entry.getKey().toString())
+            );
 
-                for (int j = 1; j < verticesData.length; j++)
-                    edges.add(Integer.parseInt(verticesData[j]));
+            Element position = new Element("position");
+            position.addContent(new Element("x").setText(p.getX().toString()));
+            position.addContent(new Element("y").setText(p.getY().toString()));
+            vertex.addContent(position);
 
-                this.vertex.put(id, edges);
-            }
+            Element neighbors = new Element("neighbors");
+            for (Integer neighbor : entry.getValue())
+                neighbors.addContent(
+                    new Element("neighbor").setText(neighbor.toString())
+                );
+            vertex.addContent(neighbors);
+
+            vertices.addContent(vertex);
         }
+
+        return vertices;
     }
 
     /**
-     * <p>Builds the array of strings to store in file.
-     * Supports the following format:</p>
-     * <p>1 5</p>
-     * <p>2 5</p>
-     * <p>3 5</p>
-     * <p>4</p>
-     * <p>5 1 2 3</p>
-     * <p>where the first number on each line is vertex id and the rest -
-     * ids of adjacent vertices</p>
-     * @return the array of strings to store in file
+     * <p>Sets the positions of vertices</p>
+     * @param copy positions of vertices
      */
-    private List<String> store() {
-        List<String> graph = new ArrayList<String>();
+    public void setVerticesPositions(Map<Integer, PointD> copy) {
+        this.position.clear();
 
-        for (Integer v : this.vertex.keySet()) {
-            String line = v + " ";
+        for (Map.Entry<Integer, PointD> entry : copy.entrySet()) {
+            PointD tmp = entry.getValue();
 
-            for (Integer edge : this.vertex.get(v))
-                line += edge + " ";
-
-            graph.add(line);
+            this.position.put(
+                entry.getKey(), new PointD(tmp.getX(), tmp.getY())
+            );
         }
-
-        return graph;
     }
 }

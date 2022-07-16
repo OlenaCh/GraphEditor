@@ -31,6 +31,7 @@ public class SaveFileHandler implements EventHandler<ActionEvent> {
             this.editor.fileChooser.showSaveDialog(this.editor.primaryStage);
 
         if (result != null) {
+            this.editor.graph.setVerticesPositions(this.editor.pos);
             this.editor.graph.toFile(result.toString());
         }
     }

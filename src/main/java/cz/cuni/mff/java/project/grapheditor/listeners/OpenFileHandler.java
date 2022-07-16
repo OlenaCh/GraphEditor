@@ -33,6 +33,7 @@ public class OpenFileHandler implements EventHandler<ActionEvent> {
         if (result != null) {
             this.editor.newGraph();
             this.editor.graph.fromFile(result.toString());
+            this.editor.pos = this.editor.graph.getVerticesPositions();
             this.editor.fileRead = true;
             this.editor.drawGraph();
         }

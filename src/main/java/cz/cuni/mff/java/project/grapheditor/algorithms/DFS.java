@@ -7,13 +7,13 @@ import java.util.*;
  * Implements DFS algorithm.
  */
 public class DFS extends AbstractAlgorithm {
-    Graph graph;
-    Integer start, end, visitedTotal;
+    private Graph graph;
+    private Integer start, end, visitedTotal;
 
-    Map<Integer, Boolean> visited;
-    Node curr;
+    private Map<Integer, Boolean> visited;
+    private Node curr;
 
-    Boolean searching;
+    private Boolean searching;
 
     /**
      * <p>A class constructor</p>
@@ -100,6 +100,15 @@ public class DFS extends AbstractAlgorithm {
                 vertices.add(vertex);
 
         return vertices;
+    }
+
+    /**
+     * <p>Returns the list of frontier edges</p>
+     * @return the list of frontier edges (always null)
+     */
+    @Override
+    public List<String> frontierEdges() {
+        return null;
     }
 
     /**

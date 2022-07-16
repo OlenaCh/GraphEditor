@@ -22,59 +22,87 @@ import javafx.stage.Stage;
  * Does nothing if algorithm is already running.
  */
 public class AlgorithmHandler implements EventHandler<ActionEvent> {
+    private final Integer X = 20;
+
     private Editor editor;
-    private Boolean dfs;
+    private Integer algorithm;
+
+    private Pane pane;
 
     /**
      * <p>A public constructor</p>
      * @param editor instance of Editor class
-     * @param dfs if set to true DFS will be run, otherwise - BFS
+     * @param algorithm the type of algorithm to run
      */
-    public AlgorithmHandler(Editor editor, Boolean dfs) {
+    public AlgorithmHandler(Editor editor, Integer algorithm) {
         this.editor = editor;
-        this.dfs = dfs;
+        this.algorithm = algorithm;
     }
 
     /**
      * <p>Overrides handle(). Creates a new form that allows user to define
-     * start and end nodes of serach path and if the manual mode of algorithm run
-     * should be applied</p>
+     * start and end nodes of serach path and if the manual mode of algorithm
+     * run should be applied</p>
      * @param event standard instance of ActionEvent
      */
     @Override
     public void handle(ActionEvent event) {
-        if (this.editor.algorithmRunning) { return; }
+        if (this.editor.algorithmRunning ||
+            this.editor.graph.vertices().size() == 0) {
 
-        Pane pane = new Pane();
+            return;
+        }
 
-        pane.getChildren().add(createLabel("Start:", 20, 20));
-        ChoiceBox start = createChoiceBox(20, 40);
-        pane.getChildren().add(start);
+        this.pane = new Pane();
 
-        pane.getChildren().add(createLabel("End:", 20, 80));
-        ChoiceBox end = createChoiceBox(20, 100);
-        pane.getChildren().add(end);
+        ChoiceBox start = buildChoiceBoxElement("Start:", 20, 40);
+        ChoiceBox end = buildChoiceBoxElement("End:", 80, 100);
+        CheckBox manualMode = buildCheckboxElement();
 
-        CheckBox manualMode = new CheckBox("Manual mode");
-        manualMode.setLayoutX(20);
-        manualMode.setLayoutY(140);
-        pane.getChildren().add(manualMode);
+        if (this.algorithm == 3)
+            this.pane.getChildren().add(
+                createLabel(
+                    "Due to the logic of algorithm\nthe manual mode is not available",
+                    X,
+                    20
+                )
+            );
 
-        Button button = new Button("Run");
-        button.setLayoutX(110);
-        button.setLayoutY(170);
-        pane.getChildren().add(button);
+        Button button = buildRunButton();
 
         Stage stage = new Stage();
         stage.setTitle("Algorithm settings:");
-        stage.setScene(new Scene(pane, 250, 220));
+        stage.setScene(new Scene(this.pane, 250, sceneWidth()));
         stage.show();
 
         button.setOnAction(
             new RunButtonHandler(
-                this.editor, start, end, manualMode, stage, this.dfs
+                this.editor, start, end, manualMode, stage, this.algorithm
             )
         );
+    }
+
+    /**
+     * <p>Builds a new element that contains a label and a choice box</p>
+     * @param label the value for choice box label
+     * @param y1 value for Y axis (for label)
+     * @param y2 value for Y axis (for choice box)
+     * @return created choice box
+     */
+    private ChoiceBox buildChoiceBoxElement(
+        String label, Integer y1, Integer y2
+    ) {
+
+        if (this.algorithm != 0 && this.algorithm != 1)
+            return null;
+
+        this.pane.getChildren().add(createLabel(label, X, y1));
+
+        ChoiceBox element = createChoiceBox(X, y2);
+
+        this.pane.getChildren().add(element);
+
+        return element;
     }
 
     /**
@@ -97,6 +125,7 @@ public class AlgorithmHandler implements EventHandler<ActionEvent> {
      * <p>Creates a new choice box, filled with the ids of existing nodes</p>
      * @param x value for X axis
      * @param y value for Y axis
+     * @return created choice box
      */
     @SuppressWarnings("unchecked")
     private ChoiceBox createChoiceBox(Integer x, Integer y) {
@@ -110,5 +139,53 @@ public class AlgorithmHandler implements EventHandler<ActionEvent> {
         cb.setLayoutY(y);
 
         return cb;
+    }
+
+    /**
+     * <p>Builds a new element that contains a label and a checkbox</p>
+     * @return created checkbox
+     */
+    private CheckBox buildCheckboxElement() {
+        if (this.algorithm == 3)
+            return null;
+
+        CheckBox manualMode = new CheckBox("Manual mode");
+
+        manualMode.setLayoutX(X);
+        manualMode.setLayoutY(
+            this.algorithm == 0 || this.algorithm == 1 ? 140 : 20
+        );
+
+        this.pane.getChildren().add(manualMode);
+
+        return manualMode;
+    }
+
+    /**
+     * <p>Builds Run button</p>
+     * @return created Run button
+     */
+    private Button buildRunButton() {
+        Button button = new Button("Run");
+
+        button.setLayoutX(110);
+        button.setLayoutY(
+            this.algorithm == 0 || this.algorithm == 1 ? 170 : 70
+        );
+
+        this.pane.getChildren().add(button);
+
+        return button;
+    }
+
+    /**
+     * <p>Returns the width of scene</p>
+     * @return the width of scene
+     */
+    private Integer sceneWidth() {
+        if (this.algorithm == 0 || this.algorithm == 1)
+            return 220;
+
+        return 120;
     }
 }

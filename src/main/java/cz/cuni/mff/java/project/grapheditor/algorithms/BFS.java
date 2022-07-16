@@ -7,14 +7,14 @@ import java.util.*;
  * Implements BFS algorithm.
  */
 public class BFS extends AbstractAlgorithm {
-    Graph graph;
-    Integer start, end;
+    private Graph graph;
+    private Integer start, end;
 
-    Map<Integer, Boolean> visited;
-    Queue<Node> queue;
-    Node curr;
+    private Map<Integer, Boolean> visited;
+    private Queue<Node> queue;
+    private Node curr;
 
-    Boolean searching;
+    private Boolean searching;
 
     /**
      * <p>A class constructor</p>
@@ -101,6 +101,15 @@ public class BFS extends AbstractAlgorithm {
             vertices.add(vertex.val);
 
         return vertices;
+    }
+
+    /**
+     * <p>Returns the list of frontier edges</p>
+     * @return the list of frontier edges (always null)
+     */
+    @Override
+    public List<String> frontierEdges() {
+        return null;
     }
 
     /**

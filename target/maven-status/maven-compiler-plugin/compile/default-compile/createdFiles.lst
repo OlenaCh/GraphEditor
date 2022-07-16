@@ -2,6 +2,7 @@ cz/cuni/mff/java/project/grapheditor/graphs/AbstractGraph.class
 cz/cuni/mff/java/project/grapheditor/listeners/MouseClickHandler.class
 cz/cuni/mff/java/project/grapheditor/editor/PointD.class
 cz/cuni/mff/java/project/grapheditor/listeners/KeyBoardReleaseHandler.class
+cz/cuni/mff/java/project/grapheditor/algorithms/ShortestCycle.class
 cz/cuni/mff/java/project/grapheditor/listeners/OpenFileHandler.class
 cz/cuni/mff/java/project/grapheditor/listeners/MouseDragHandler.class
 cz/cuni/mff/java/project/grapheditor/algorithms/Path.class
@@ -23,3 +24,4 @@ cz/cuni/mff/java/project/grapheditor/algorithms/AbstractAlgorithm.class
 cz/cuni/mff/java/project/grapheditor/graphs/GraphIOInterface.class
 cz/cuni/mff/java/project/grapheditor/Main.class
 cz/cuni/mff/java/project/grapheditor/editor/Editor$1.class
+cz/cuni/mff/java/project/grapheditor/algorithms/MinimumSpanningTree.class

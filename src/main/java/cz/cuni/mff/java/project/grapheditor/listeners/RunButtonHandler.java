@@ -3,6 +3,8 @@ package cz.cuni.mff.java.project.grapheditor.listeners;
 import cz.cuni.mff.java.project.grapheditor.editor.Editor;
 import cz.cuni.mff.java.project.grapheditor.algorithms.DFS;
 import cz.cuni.mff.java.project.grapheditor.algorithms.BFS;
+import cz.cuni.mff.java.project.grapheditor.algorithms.MinimumSpanningTree;
+import cz.cuni.mff.java.project.grapheditor.algorithms.ShortestCycle;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,7 +23,7 @@ public class RunButtonHandler implements EventHandler<ActionEvent> {
     private ChoiceBox endVertex;
     private CheckBox manualMode;
     private Stage stage;
-    private Boolean dfs;
+    private Integer algorithm;
 
     /**
      * <p>A public constructor</p>
@@ -30,7 +32,7 @@ public class RunButtonHandler implements EventHandler<ActionEvent> {
      * @param endVertex the choice box that contains the end vertex of path
      * @param manualMode an indicator if algorithm should be run manually
      * @param stage the stage of argotithm form
-     * @param dfs if set to true DFS will be run, otherwise - BFS
+     * @param algorithm the type of algorithm to run
      */
     public RunButtonHandler(
         Editor editor,
@@ -38,7 +40,7 @@ public class RunButtonHandler implements EventHandler<ActionEvent> {
         ChoiceBox endVertex,
         CheckBox manualMode,
         Stage stage,
-        Boolean dfs
+        Integer algorithm
     ) {
 
         this.editor = editor;
@@ -46,7 +48,7 @@ public class RunButtonHandler implements EventHandler<ActionEvent> {
         this.endVertex = endVertex;
         this.manualMode = manualMode;
         this.stage = stage;
-        this.dfs = dfs;
+        this.algorithm = algorithm;
     }
 
     /**
@@ -56,14 +58,37 @@ public class RunButtonHandler implements EventHandler<ActionEvent> {
      */
     @Override
     public void handle(ActionEvent event) {
-        Integer start = Integer.parseInt("" + this.startVertex.getValue());
-        Integer end = Integer.parseInt("" + this.endVertex.getValue());
-        this.editor.manualMode = this.manualMode.isSelected();
+        Integer start = null;
+        Integer end = null;
 
-        if (this.dfs)
-            this.editor.algorithm = new DFS(this.editor.graph, start, end);
+        if (this.startVertex != null)
+            start = Integer.parseInt("" + this.startVertex.getValue());
+
+        if (this.endVertex != null)
+            end = Integer.parseInt("" + this.endVertex.getValue());
+
+        if (this.manualMode != null)
+            this.editor.manualMode = this.manualMode.isSelected();
         else
-            this.editor.algorithm = new BFS(this.editor.graph, start, end);
+            this.editor.manualMode = false;
+
+        switch (this.algorithm) {
+            case 0:
+                this.editor.algorithm = new BFS(this.editor.graph, start, end);
+                break;
+            case 1:
+                this.editor.algorithm = new DFS(this.editor.graph, start, end);
+                break;
+            case 2:
+                this.editor.algorithm =
+                    new MinimumSpanningTree(this.editor.graph);
+                break;
+            case 3:
+                this.editor.algorithm = new ShortestCycle(this.editor.graph);
+                break;
+            default:
+                return;
+        }
 
         this.stage.close();
 

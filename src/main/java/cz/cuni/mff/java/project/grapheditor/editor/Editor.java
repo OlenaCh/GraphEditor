@@ -186,8 +186,10 @@ public class Editor extends Application {
 
         subitems.add(
             new LinkedHashMap<String, EventHandler<ActionEvent>>() {{
-                put("BFS", new AlgorithmHandler(editor, false));
-                put("DFS", new AlgorithmHandler(editor, true));
+                put("BFS", new AlgorithmHandler(editor, 0));
+                put("DFS", new AlgorithmHandler(editor, 1));
+                put("Spanning tree", new AlgorithmHandler(editor, 2));
+                put("Shortest cycle", new AlgorithmHandler(editor, 3));
                 put("Stop/Clear status", new StopAlgorithmHandler(editor));
             }}
         );
@@ -212,10 +214,8 @@ public class Editor extends Application {
      * <p>Draws a graph</p>
      */
     public void drawGraph() {
-        if (this.fileRead) {
-            buildGraphCoordinates();
+        if (this.fileRead)
             this.fileRead = false;
-        }
 
         this.drawingArea.clearRect(
             0, 0, this.canvas.getWidth(), this.canvas.getHeight()
@@ -230,12 +230,27 @@ public class Editor extends Application {
      */
     private void drawEdges() {
         List<Integer> vertices = this.graph.vertices();
+        List<String> frontier = null;
+
+        if (this.algorithmRunning) {
+            frontier = algorithm.frontierEdges();
+        }
 
         for (Integer v : vertices) {
             List<Integer> neighbors = this.graph.neighbors(v);
 
             for (Integer n : neighbors) {
-                drawEdge(this.pos.get(v), this.pos.get(n), edgeColor(v, n));
+                drawEdge(
+                    this.pos.get(v),
+                    this.pos.get(n),
+                    edgeColor(
+                        v,
+                        n,
+                        frontier != null &&
+                        (frontier.contains(v + " " + n) ||
+                            frontier.contains(n + " " + v))
+                    )
+                );
             }
         }
     }
@@ -258,9 +273,13 @@ public class Editor extends Application {
      * <p>Defines an edge color</p>
      * @param v the first vertex of edge
      * @param n the second vertex of edge
+     * @param thirdColor indicator if it's necessary to use light blue color
      * @return the color of edge
      */
-    private Color edgeColor(int v, int n) {
+    private Color edgeColor(int v, int n, Boolean thirdColor) {
+        if (thirdColor)
+            return Color.LIGHTBLUE;
+
         if (!this.algorithmRunning && edgeOfFoundResult(v, n))
             return Color.RED;
 
@@ -376,25 +395,6 @@ public class Editor extends Application {
 
         return false;
     }
-
-    /**
-     * <p>Builds the map of the (x, y) coordinates of vertices</p>
-     */
-    private void buildGraphCoordinates() {
-        Random rand = new Random();
-
-        for (Integer v : this.graph.vertices()) {
-            Integer id = v;
-            Double x, y;
-
-            do {
-                x = (double)rand.nextInt(750);
-                y = (double)rand.nextInt(750);
-            } while (vertexPointExists(x, y) > 0);
-            this.pos.put(id, new PointD(x, y));
-        }
-    }
-
 
     /**
      * <p>Checks if there is a vertex, located at certain coordinates (x, y)</p>

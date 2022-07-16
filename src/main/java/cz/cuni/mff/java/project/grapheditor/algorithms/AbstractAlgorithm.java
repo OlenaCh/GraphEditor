@@ -14,5 +14,7 @@ public abstract class AbstractAlgorithm {
     public abstract List<Integer> visitedVertices();
     public abstract List<Integer> frontierVertices();
 
+    public abstract List<String> frontierEdges();
+
     public abstract Boolean running();
 }

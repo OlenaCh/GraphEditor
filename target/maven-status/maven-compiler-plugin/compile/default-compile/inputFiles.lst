@@ -1,4 +1,5 @@
 /home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/StopAlgorithmHandler.java
+/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/algorithms/MinimumSpanningTree.java
 /home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/algorithms/DFS.java
 /home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/OpenFileHandler.java
 /home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/AlgorithmHandler.java
@@ -6,6 +7,7 @@
 /home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/KeyBoardPressHandler.java
 /home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/KeyBoardReleaseHandler.java
 /home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/editor/PointD.java
+/home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/algorithms/ShortestCycle.java
 /home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/graphs/AbstractGraph.java
 /home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/cz/cuni/mff/java/project/grapheditor/listeners/MouseClickHandler.java
 /home/olena/Desktop/Study materials/Java/GraphEditor/src/main/java/module-info.java
